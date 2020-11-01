@@ -1,5 +1,8 @@
 package com.karakays.leetcode.domain;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class Graph {
 
     private final Edge[] edges;
@@ -7,12 +10,23 @@ public class Graph {
     private int nEdges;
     private int nVertices;
 
-    public Graph(int vCapacity, boolean directed) {
+    public Graph(int vCapacity, boolean directed, int[][] edges) {
         this.edges = new Edge[vCapacity];
         this.directed = directed;
+        Set<Integer> vertices = new HashSet<>();
+        for (int[] e : edges) {
+            insertEdge(e[0], e[1]);
+            vertices.add(e[0]);
+            vertices.add(e[1]);
+        }
+        this.nVertices = vertices.size();
     }
 
-    public Edge getEdge(int id) {
+    public Graph(int vCapacity, boolean directed) {
+        this(vCapacity, directed, new int[][]{});
+    }
+
+    public Edge edge(int id) {
         return edges[id];
     }
 
@@ -32,10 +46,9 @@ public class Graph {
         insertEdge(x, y, this.directed);
     }
 
-    public void insertEdge(int x, int y, boolean directed) {
+    private void insertEdge(int x, int y, boolean directed) {
         Edge head = edges[x];
         nEdges++;
-        if(head == null) this.nVertices++;
         Edge edge = new Edge(x, y, head);
         edges[x] = edge;
         if(!directed) {
@@ -65,8 +78,8 @@ public class Graph {
      * It's modeled with a pair of vertices (x, y)
      */
     public static class Edge {
-        private int x;
-        private int y;
+        public final int x;
+        public final int y;
         private int weight;
         private Edge next;
 
@@ -75,14 +88,6 @@ public class Graph {
             this.y = y;
             this.next = next;
             this.weight = 0;
-        }
-
-        public int getX() {
-            return x;
-        }
-
-        public int getY() {
-            return y;
         }
 
         public int getWeight() {
