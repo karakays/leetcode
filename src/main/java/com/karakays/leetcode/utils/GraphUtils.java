@@ -154,6 +154,7 @@ public class GraphUtils {
                     // back-edge
                     edgeProcessor.accept(edge.x, edge.y);
                 }
+                // if state=processed, node must have been processed by another path (component).
                 edge = edge.getNext();
             }
             properties[root].exitTime = ++this.time;
