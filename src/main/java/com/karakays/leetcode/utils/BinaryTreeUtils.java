@@ -110,7 +110,7 @@ public class BinaryTreeUtils {
      * @param values
      * @return
      */
-    public static TreeNode buildTreeFromArray(Integer... values) {
+    public static TreeNode buildTreeFromArray(Integer[] values) {
         if(values == null || values.length == 0) {
             return null;
         }

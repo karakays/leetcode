@@ -9,17 +9,14 @@ public class GraphUtilsTests {
     public void testBfs_undirected() {
         int[][] edges = {{1,2}, {1,3}, {2, 3}, {2, 4}, {3, 4}};
         Graph graph = new Graph(5, false, edges);
-        GraphUtils.bfs(graph, 1);
+        GraphUtils.bfs(graph);
     }
 
     @Test
     public void testDfs_undirected() {
         int[][] edges = {{1,2}, {1,3}, {2, 3}, {2, 4}, {3, 4}};
         Graph graph = new Graph(5, false, edges);
-        VertexProperties[] properties = GraphUtils.dfs(graph, 1);
-        for (int i = 0; i < properties.length; i++) {
-            System.out.printf("node=[%s], %s%n", i, properties[i]);
-        }
+        GraphUtils.dfs(graph);
     }
 
     @Test

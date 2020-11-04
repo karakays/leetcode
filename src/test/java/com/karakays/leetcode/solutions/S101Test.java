@@ -58,7 +58,7 @@ public class S101Test {
 
     @Test
     public void test6() {
-        S104.TreeNode root = BinaryTreeUtils.buildTreeFromArray();
+        S104.TreeNode root = BinaryTreeUtils.buildTreeFromArray(new Integer[]{});
         boolean result = s101.isSymmetric(root);
         Assert.assertTrue(result);
     }

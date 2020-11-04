@@ -2,6 +2,7 @@ package com.karakays.leetcode.utils;
 
 import com.karakays.leetcode.domain.Graph;
 import com.karakays.leetcode.domain.Graph.Edge;
+import com.karakays.leetcode.solutions.Base;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -9,28 +10,29 @@ import java.util.Queue;
 import java.util.Stack;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-public class GraphUtils {
-    private final static Logger log = Logger.getLogger(GraphUtils.class.getName());
+public class GraphUtils extends Base {
 
-    public static void bfs(Graph graph, int start) {
-        BFS bfs = new BFS(graph);
-        bfs.search(graph, start);
+    public static void bfs(Graph g) {
+        BFS bfs = new BFS(g);
+        for (int i = 1; i < g.nVertices() + 1; i++) {
+            if (bfs.states[i] == VertexProperties.State.UNDISCOVERED) {
+                bfs.search(g, i);
+            }
+        }
     }
 
-    public static VertexProperties[] dfs(Graph graph, int start) {
-        DFS dfs = new DFS(graph);
-        return dfs.search(graph, start);
+    public static void dfs(Graph g) {
+        DFS dfs = new DFS(g);
+        for (int i = 1; i < g.nVertices() + 1; i++) {
+            if (dfs.properties[i].state == VertexProperties.State.UNDISCOVERED) {
+                dfs.search(g, i);
+            }
+        }
     }
 
     public boolean hasCycles(Graph g) {
-        BiConsumer<Integer, Integer> cycle =
-                (i, j) -> {
-//                    if()
-                    log.log(Level.INFO, "Found cycle in ({0}, {1})", new Object[]{i, j});
-                };
+        BiConsumer<Integer, Integer> cycle = (i, j) -> log.info("Found cycle in {} {}", i, j);
         return false;
     }
 
@@ -42,11 +44,15 @@ public class GraphUtils {
         Stack<Integer> stack = new Stack<>();
         Consumer<Integer> post_process_vertex = (i) -> stack.push(i);
         DFS dfs = new DFS(g, post_process_vertex);
-        dfs.search(g, 1);
-
-        while(!stack.isEmpty()) {
-            System.out.println(stack.pop());
+        for (int i = 1; i < g.nVertices() + 1; i++) {
+            if (dfs.getVertexProperties()[i].state == VertexProperties.State.UNDISCOVERED) {
+                dfs.search(g, i);
+            }
         }
+    }
+
+    public static void strong_components(Graph g) {
+
     }
 
     public static class VertexProperties {
@@ -66,7 +72,7 @@ public class GraphUtils {
         }
     }
 
-    private static class BFS {
+    private static class BFS extends Base {
         private final Queue<Integer> queue;
         private final Integer[] parents;
         private final VertexProperties.State[] states;
@@ -83,11 +89,11 @@ public class GraphUtils {
             while (!queue.isEmpty()) {
                 Integer current = queue.poll();
                 Edge edge = graph.edge(current);
-                System.out.printf("Visiting vertex %s...%n", current);
+                log.info("Visiting vertex {}", current);
                 while (edge != null) {
                     int y = edge.y;
                     if ((states[y] != VertexProperties.State.PROCESSED) || graph.isDirected()) {
-                        System.out.printf("\tProcessing edge (%s, %s)%n", edge.x, edge.y);
+                        log.info("Processing edge ({}, {})", edge.x, edge.y);
                     }
                     if (states[y] == VertexProperties.State.UNDISCOVERED) {
                         queue.offer(y);
@@ -97,59 +103,50 @@ public class GraphUtils {
                     edge = edge.getNext();
                 }
                 states[current] = VertexProperties.State.PROCESSED;
-                System.out.printf("Visit done in vertex %s...%n", current);
+                log.info("Visit done in vertex {}", current);
             }
         }
     }
 
-    static class DFS {
-        private static BiConsumer<Integer, Integer> DEF_EDGE_PRC =
-                (i, j) -> log.log(Level.INFO, "Tree edge ({0}, {1}) being processed", new Object[]{i, j});
-        private static Consumer<Integer> DEF_PRE_VX_PRC =
-                (i) -> log.log(Level.INFO, "Preprocessing vertex={0}", i);
-        private static Consumer<Integer> DEF_POST_VX_PRC =
-                (i) -> log.log(Level.INFO, "Processed vertex={0}", i);
-
+    static class DFS extends Base {
         private int time;
         private VertexProperties[] properties;
-        private BiConsumer<Integer, Integer> edgeProcessor;
-        private Consumer<Integer> vertexPreProcessor;
-        private Consumer<Integer> vertexPostProcessor;
+        private BiConsumer<Integer, Integer> edgeProcessor = (i, j) -> log.info("Tree edge ({0}, {}) being processed", i, j);
+        private Consumer<Integer> vertexPreProcessor = (i) -> log.info("Preprocessing vertex={}", i);
+        private Consumer<Integer> vertexPostProcessor = (i) -> log.info("Processed vertex={}", i);
 
-        public DFS(Graph g, BiConsumer<Integer, Integer> edgeProcessor, Consumer<Integer> vertexPreProcessor,
-                   Consumer<Integer> vertexPostProcessor) {
+        public DFS(Graph g) {
             this.time = 0;
             this.properties = new VertexProperties[g.nVertices() + 1];
             for (int i = 1; i < properties.length; i++) properties[i] = new VertexProperties();
-            this.edgeProcessor = edgeProcessor;
-            this.vertexPreProcessor = vertexPreProcessor;
-            this.vertexPostProcessor = vertexPostProcessor;
         }
 
         public DFS(Graph g, BiConsumer<Integer, Integer> edgeProcessor) {
-            this(g, edgeProcessor, DEF_PRE_VX_PRC, DEF_POST_VX_PRC);
+            this(g);
+            this.edgeProcessor = edgeProcessor;
         }
 
         public DFS(Graph g, Consumer<Integer> vertexPostProcessor) {
-            this(g, DEF_EDGE_PRC, DEF_PRE_VX_PRC, vertexPostProcessor);
+            this(g);
+            this.vertexPostProcessor = vertexPostProcessor;
         }
 
-        public DFS(Graph g) {
-            this(g, DEF_EDGE_PRC, DEF_PRE_VX_PRC, DEF_POST_VX_PRC);
+        public VertexProperties[] getVertexProperties() {
+            return this.properties;
         }
 
-        public VertexProperties[] search(Graph graph, int root) {
+        public void search(Graph graph, int root) {
             Edge edge = graph.edge(root);
             properties[root].state = VertexProperties.State.DISCOVERED;
             properties[root].entryTime = ++this.time;
             vertexPreProcessor.accept(root);
-            while(edge != null) {
-                if(properties[edge.y].state == VertexProperties.State.UNDISCOVERED) {
+            while (edge != null) {
+                if (properties[edge.y].state == VertexProperties.State.UNDISCOVERED) {
                     // tree-edge
                     properties[edge.y].parent = edge.x;
                     edgeProcessor.accept(edge.x, edge.y);
                     search(graph, edge.y);
-                } else if(properties[edge.y].state != VertexProperties.State.PROCESSED) {
+                } else if (properties[edge.y].state != VertexProperties.State.PROCESSED) {
                     // AVOID processing same edge TWICE
                     // back-edge
                     edgeProcessor.accept(edge.x, edge.y);
@@ -160,7 +157,6 @@ public class GraphUtils {
             properties[root].exitTime = ++this.time;
             properties[root].state = VertexProperties.State.PROCESSED;
             vertexPostProcessor.accept(root);
-            return properties;
         }
     }
 }
