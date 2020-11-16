@@ -1,11 +1,12 @@
 package com.karakays.leetcode.solutions;
 
-import java.nio.IntBuffer;
+import com.karakays.leetcode.domain.TreeNode;
+
 import java.util.*;
 
 public class S103 {
 
-    public List<List<Integer>> zigzagLevelOrder(S104.TreeNode root) {
+    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
         List<List<Integer>> zigzagOrder = new ArrayList<>();
         Map<Integer, List<Integer>> treeMap = new HashMap<>();
         int level = 0;
@@ -22,7 +23,7 @@ public class S103 {
         return zigzagOrder;
     }
 
-    public void traverseByLevel(S104.TreeNode root, int level, Map<Integer,List<Integer>> treeMap) {
+    public void traverseByLevel(TreeNode root, int level, Map<Integer,List<Integer>> treeMap) {
         if(root != null) {
             if(!treeMap.containsKey(level)) {
                 treeMap.put(level, new ArrayList<>());

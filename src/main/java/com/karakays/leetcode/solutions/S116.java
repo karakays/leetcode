@@ -1,8 +1,5 @@
 package com.karakays.leetcode.solutions;
 
-import com.karakays.leetcode.solutions.S104.TreeNode;
-import com.karakays.leetcode.utils.BinaryTreeUtils;
-
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -25,26 +22,33 @@ public class S116 extends Base{
     }
 
     public Node connect(Node root) {
-
         Queue<Node> queue = new LinkedList<>();
-        queue.add(root);
-
+        if(root != null) {
+            queue.add(root);
+        }
         int level = 0;
         while (!queue.isEmpty()) {
-            int levelSize = queue.size();
-            while(levelSize-- > 0) {
+            int nodesInLevel = queue.size();
+            Node previous = null;
+            while(nodesInLevel-- > 0) {
+                // process parents at level
                 Node node = queue.poll();
-                log.info("{} is at level {}", node.val, level);
+                log.info("Node {} is at level {}", node.val, level);
+                if(previous != null) {
+                    previous.next = node;
+                }
                 if(node.left != null) {
                     queue.offer(node.left);
                 }
                 if(node.right != null) {
                     queue.offer(node.right);
                 }
+                previous = node;
             }
             level += 1;
+            log.info("Next level {} has {} nodes", level, queue.size());
         }
-        return null;
+        return root;
     }
 
 }

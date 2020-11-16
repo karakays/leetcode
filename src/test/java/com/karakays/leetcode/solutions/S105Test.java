@@ -1,5 +1,6 @@
 package com.karakays.leetcode.solutions;
 
+import com.karakays.leetcode.domain.TreeNode;
 import com.karakays.leetcode.utils.BinaryTreeUtils;
 import org.junit.Assert;
 import org.junit.Before;
@@ -16,7 +17,7 @@ public class S105Test {
 
     @Test
     public void test1() {
-        S104.TreeNode root = BinaryTreeUtils.buildTreeFromArray(new Integer[]{3, 9, 20, null, null, 15, 7});
+        TreeNode root = BinaryTreeUtils.buildTreeFromArray(new Integer[]{3, 9, 20, null, null, 15, 7});
         boolean result = s105.isValidBST(root);
         Assert.assertFalse(result);
     }

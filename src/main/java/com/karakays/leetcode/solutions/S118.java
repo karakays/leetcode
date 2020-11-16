@@ -1,8 +1,5 @@
 package com.karakays.leetcode.solutions;
 
-import com.karakays.leetcode.solutions.S104.TreeNode;
-import com.karakays.leetcode.utils.BinaryTreeUtils;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

@@ -1,8 +1,8 @@
 package com.karakays.leetcode.solutions;
 
+import com.karakays.leetcode.domain.TreeNode;
 import com.karakays.leetcode.utils.BinaryTreeUtils;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -16,7 +16,7 @@ public class S103Test {
 
     @Test
     public void test1() {
-        S104.TreeNode node = BinaryTreeUtils.buildTreeFromList(15, 10, 20, 16, 21, 22);
+        TreeNode node = BinaryTreeUtils.buildTreeFromList(15, 10, 20, 16, 21, 22);
         Map<Integer, List<Integer>> treeMap = new HashMap<>();
         s103.traverseByLevel(node, 0, treeMap);
         Assert.assertEquals(4, treeMap.keySet().size());
@@ -26,7 +26,7 @@ public class S103Test {
 
     @Test
     public void test2() {
-        S104.TreeNode node = BinaryTreeUtils.buildTreeFromArray(new Integer[]{3,9,20,null,null,15,7});
+        TreeNode node = BinaryTreeUtils.buildTreeFromArray(new Integer[]{3,9,20,null,null,15,7});
         List<List<Integer>> list = s103.zigzagLevelOrder(node);
         Assert.assertEquals(3, list.size());
         Assert.assertEquals(Arrays.asList(3), list.get(0));
@@ -36,7 +36,7 @@ public class S103Test {
 
     @Test
     public void test3() {
-        S104.TreeNode node = BinaryTreeUtils.buildTreeFromArray(new Integer[]{3});
+        TreeNode node = BinaryTreeUtils.buildTreeFromArray(new Integer[]{3});
         List<List<Integer>> list = s103.zigzagLevelOrder(node);
         Assert.assertEquals(1, list.size());
         Assert.assertEquals(Arrays.asList(3), list.get(0));

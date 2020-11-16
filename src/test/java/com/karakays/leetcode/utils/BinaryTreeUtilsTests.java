@@ -1,6 +1,6 @@
 package com.karakays.leetcode.utils;
 
-import com.karakays.leetcode.solutions.S104.TreeNode;
+import com.karakays.leetcode.domain.TreeNode;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -142,6 +142,49 @@ public class BinaryTreeUtilsTests {
         TreeNode node = BinaryTreeUtils.insertAndReturn(root, 33);
         Assert.assertEquals(3, root.val);
         Assert.assertEquals(33, node.val);
+    }
+
+
+    @Test
+    public void testFindMinimum1() {
+        TreeNode root = BinaryTreeUtils.buildTreeFromList(3, 4, 5, -1, -20, 7);
+        Assert.assertEquals(-20, BinaryTreeUtils.minimum(root).val);
+    }
+
+    @Test
+    public void testFindMinimum2() {
+        TreeNode root = BinaryTreeUtils.buildTreeFromList(3);
+        Assert.assertEquals(3, BinaryTreeUtils.minimum(root).val);
+    }
+
+    @Test
+    public void testFindMinimum3() {
+        TreeNode root = BinaryTreeUtils.buildTreeFromList(1,2,3,4,5);
+        Assert.assertEquals(1, BinaryTreeUtils.minimum(root).val);
+    }
+
+    @Test
+    public void testSuccessor1() {
+        TreeNode root = BinaryTreeUtils.buildTreeFromList(3, 2, 15, -1, -20, 10, 20, 8, 18, 21, 19);
+        TreeNode node15 = root.right;
+        Assert.assertEquals(15, node15.val);
+        Assert.assertEquals(18, BinaryTreeUtils.successor(root, node15).val);
+    }
+
+    @Test
+    public void testSuccessor2() {
+        TreeNode root = BinaryTreeUtils.buildTreeFromList(3, 2, 15, -1, -20, 10, 20, 8, 18, 21, 19);
+        TreeNode node19 = root.right.right.left.right;
+        Assert.assertEquals(19, node19.val);
+        Assert.assertEquals(20, BinaryTreeUtils.successor(root, node19).val);
+    }
+
+    @Test
+    public void testSuccessor3() {
+        TreeNode root = BinaryTreeUtils.buildTreeFromList(3, 2, 15, -1, -20, 10, 20, 8, 18, 21, 19);
+        TreeNode node21 = root.right.right.right;
+        Assert.assertEquals(21, node21.val);
+        Assert.assertNull(BinaryTreeUtils.successor(root, node21));
     }
 
     private List<Integer> treeAsList(TreeNode root) {

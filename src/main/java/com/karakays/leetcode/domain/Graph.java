@@ -5,13 +5,13 @@ import java.util.Set;
 
 public class Graph {
 
-    private final Edge[] edges;
+    private final Edge[] outgoingEdges;
     private final boolean directed;
     private int nEdges;
     private int nVertices;
 
     public Graph(int vCapacity, boolean directed, int[][] edges) {
-        this.edges = new Edge[vCapacity];
+        this.outgoingEdges = new Edge[vCapacity];
         this.directed = directed;
         Set<Integer> vertices = new HashSet<>();
         for (int[] e : edges) {
@@ -27,7 +27,7 @@ public class Graph {
     }
 
     public Edge edge(int id) {
-        return edges[id];
+        return outgoingEdges[id];
     }
 
     public boolean isDirected() {
@@ -47,10 +47,10 @@ public class Graph {
     }
 
     private void insertEdge(int x, int y, boolean directed) {
-        Edge head = edges[x];
+        Edge head = outgoingEdges[x];
         nEdges++;
         Edge edge = new Edge(x, y, head);
-        edges[x] = edge;
+        outgoingEdges[x] = edge;
         if(!directed) {
             insertEdge(y, x, true);
         }
@@ -61,7 +61,7 @@ public class Graph {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("Graph[\n");
         for (int i = 0; i < nVertices; i++) {
-            Edge edge = edges[i];
+            Edge edge = outgoingEdges[i];
             stringBuilder.append("Node=").append(i).append("\n");
             while (edge != null) {
                 stringBuilder.append("\t->")

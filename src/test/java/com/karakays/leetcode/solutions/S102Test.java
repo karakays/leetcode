@@ -1,5 +1,6 @@
 package com.karakays.leetcode.solutions;
 
+import com.karakays.leetcode.domain.TreeNode;
 import com.karakays.leetcode.utils.BinaryTreeUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,7 +18,7 @@ public class S102Test {
 
     @Test
     public void test1() {
-        S104.TreeNode root = BinaryTreeUtils.buildTreeFromArray(new Integer[]{3,9,20,null,null,15,7});
+        TreeNode root = BinaryTreeUtils.buildTreeFromArray(new Integer[]{3,9,20,null,null,15,7});
         List<List<Integer>> levels = s102.levelOrder(root);
         System.out.println(levels);
     }

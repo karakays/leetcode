@@ -92,13 +92,14 @@ public class GraphUtils extends Base {
                 log.info("Visiting vertex {}", current);
                 while (edge != null) {
                     int y = edge.y;
-                    if ((states[y] != VertexProperties.State.PROCESSED) || graph.isDirected()) {
-                        log.info("Processing edge ({}, {})", edge.x, edge.y);
-                    }
                     if (states[y] == VertexProperties.State.UNDISCOVERED) {
+                        log.info("Discovered new vertex {}", edge.y);
                         queue.offer(y);
                         states[y] = VertexProperties.State.DISCOVERED;
                         parents[y] = edge.x;
+                    }
+                    if ((states[y] != VertexProperties.State.PROCESSED) || graph.isDirected()) {
+                        log.info("Processing edge ({}, {})", edge.x, edge.y);
                     }
                     edge = edge.getNext();
                 }

@@ -1,5 +1,6 @@
 package com.karakays.leetcode.solutions;
 
+import com.karakays.leetcode.domain.TreeNode;
 import com.karakays.leetcode.utils.BinaryTreeUtils;
 import org.junit.Assert;
 import org.junit.Before;
@@ -16,14 +17,14 @@ public class S104Test {
 
     @Test
     public void test1() {
-        S104.TreeNode root = BinaryTreeUtils.buildTreeFromArray(new Integer[]{3, 9, 20, null, null, 15, 7});
+        TreeNode root = BinaryTreeUtils.buildTreeFromArray(new Integer[]{3, 9, 20, null, null, 15, 7});
         int maxDepth = s104.maxDepth(root);
         Assert.assertEquals(maxDepth, 3);
     }
 
     @Test
     public void test2() {
-        S104.TreeNode root = BinaryTreeUtils.buildTreeFromArray(new Integer[]{1, null, 2, null, null, null, 3, null, null, null, null, null, null, null, 4});
+        TreeNode root = BinaryTreeUtils.buildTreeFromArray(new Integer[]{1, null, 2, null, null, null, 3, null, null, null, null, null, null, null, 4});
         int maxDepth = s104.maxDepth(root);
         Assert.assertEquals(maxDepth, 4);
     }

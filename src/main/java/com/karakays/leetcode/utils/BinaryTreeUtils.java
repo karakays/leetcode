@@ -1,12 +1,44 @@
 package com.karakays.leetcode.utils;
 
-import com.karakays.leetcode.solutions.S104.TreeNode;
+import com.karakays.leetcode.domain.TreeNode;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
 public class BinaryTreeUtils {
+
+    public static TreeNode minimum(TreeNode root) {
+        while(root.left != null) {
+            root = root.left;
+        }
+        return root;
+    }
+
+    /**
+     * in-order successsor
+     * @param root
+     * @param node MUST exist
+     * @return
+     */
+    public static TreeNode successor(TreeNode root, TreeNode node) {
+        TreeNode successor = null;
+        if(node.right != null) {
+            successor = minimum(node.right);
+        } else {
+            while(root != null) {
+                if (node.val < root.val) {
+                    successor = root;
+                    root = root.left;
+                } else if (node.val > root.val) {
+                    root = root.right;
+                } else {
+                    break;
+                }
+            }
+        }
+        return successor;
+    }
 
     /**
      * Traver in-order
